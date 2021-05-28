@@ -1,6 +1,9 @@
 # ansible-playbooks
 General playbooks that I find helpful to automate various tasks.
 
+### List of Playbooks
+- `docker_install_debian` - automate installing docker on raspberry pi or debian os using ansible tasks.
+
 ## Docker installation on Debian
 
 ### Variable Parameters
