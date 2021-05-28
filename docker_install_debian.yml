@@ -1,0 +1,45 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Remove older versions of docker
+      apt: 
+        state: absent
+        name:
+          - docker
+          - docker-engine
+          - docker.io
+          - containerd
+          - runc
+    - name: Ensure apt is setup for use over HTTPS
+      apt: 
+        state: present
+        update_cache: yes
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+    - name: Add Docker's official GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+        state: present
+    - name: Set up the docker repository
+      copy:
+        force: true
+        dest: /etc/apt/sources.list.d/docker.list
+        content: |
+          deb [arch={{ arch }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ dist }} {{ codename }}
+    - name: Ensure docker engine is installed
+      apt:
+        state: present
+        update_cache: yes
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+    - name: Run hello world
+      command:
+        cmd: docker run hello-world
