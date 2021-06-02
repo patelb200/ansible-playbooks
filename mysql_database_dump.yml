@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Dump database
+      community.mysql.mysql_db:
+        login_unix_socket: /run/mysqld/mysqld.sock
+        state: dump
+        name: "{{ database }}"
+        target: /tmp/dump.sql
+    - name: Create archive file
+      archive:
+        path: /tmp/dump.sql
+        dest: '/tmp/{{ fileName }}.sql.gz'
+        format: gz
+        remove: yes
+    - name: Copy archive to local machine
+      fetch:
+        src: '/tmp/{{ fileName }}.sql.gz'
+        dest: '{{ destination }}'
+        flat: true
+    - name: Remove dump files from server
+      ansible.builtin.file:
+        path: '/tmp/{{ fileName }}.sql.gz'
+        state: absent
+      
