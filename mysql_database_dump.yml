@@ -2,6 +2,10 @@
 - hosts: all
   become: true
   tasks:
+    - name: Ensure PyMySql is installed
+      pip:
+        state: present
+        name: PyMySql
     - name: Dump database
       community.mysql.mysql_db:
         login_unix_socket: /run/mysqld/mysqld.sock
