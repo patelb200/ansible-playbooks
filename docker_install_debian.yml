@@ -40,6 +40,10 @@
           - docker-ce
           - docker-ce-cli
           - containerd.io
+    - name: Ensure docker-compose is installed
+      pip:
+        state: present
+        name: docker-compose
     - name: Run hello world
       command:
         cmd: docker run hello-world

@@ -2,8 +2,8 @@
 General playbooks that I find helpful to automate various tasks.
 
 ### List of Playbooks
-- `docker_install_debian` - automate installing docker on raspberry pi or debian os using ansible tasks.
-
+- `docker_install_debian` - automate installing docker and docker-compose on raspberry pi or debian os using ansible tasks.
+- `mysql_database_dump` - automate remote database dump and send archive file to the local host.
 ## Docker Installation on Debian
 
 ### Variable Parameters
@@ -17,6 +17,8 @@ General playbooks that I find helpful to automate various tasks.
 ```
 ansible-playbook -i inventory.yml docker_install_debian.yml --extra-vars "arch=armhf dist=buster codename=stable"
 ```
+### Post-installation
+If you do not want to preface `docker` with `sudo` then you can follow this [post-installation guide](https://docs.docker.com/engine/install/linux-postinstall) to configure that.
 
 ## MySQL Database Dump
 
